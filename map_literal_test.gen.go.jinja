@@ -1,26 +1,24 @@
 package goplayground
 
 import (
-    "math/rand"
+	"math/rand"
 )
-
 
 {% for len in lengths %}
 func buildMapUsingLiteral{{ len }}() map[string]int {
 	return map[string]int{
-		{% for i in range(len) %}
-		"key{{ i }}":  rand.Int(),
-		{% endfor %}
+{% for i in range(len) %}
+		"key{{ i }}": rand.Int(),
+{% endfor %}
 	}
 }
 
 {% endfor %}
-
 // MapBuilder factory type
 type MapBuilder func() map[string]int
 
 var buildersRegistry = map[int]MapBuilder {
-	{% for len in lengths %}
+{% for len in lengths %}
 	{{ len }}: buildMapUsingLiteral{{ len }},
-	{% endfor %}
+{% endfor %}
 }
