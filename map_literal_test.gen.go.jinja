@@ -13,6 +13,14 @@ func buildMapUsingLiteral{{ len }}() map[string]int {
 	}
 }
 
+func buildMapUsingLiteralConst{{ len }}() map[string]int {
+	return map[string]int{
+{% for i in range(len) %}
+		"key{{ i }}": 0,
+{% endfor %}
+	}
+}
+
 {% endfor %}
 // MapBuilder factory type
 type MapBuilder func() map[string]int
@@ -20,5 +28,11 @@ type MapBuilder func() map[string]int
 var buildersRegistry = map[int]MapBuilder {
 {% for len in lengths %}
 	{{ len }}: buildMapUsingLiteral{{ len }},
+{% endfor %}
+}
+
+var constBuildersRegistry = map[int]MapBuilder {
+{% for len in lengths %}
+	{{ len }}: buildMapUsingLiteralConst{{ len }},
 {% endfor %}
 }

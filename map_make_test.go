@@ -46,3 +46,14 @@ func BenchmarkMapStringLiteral(b *testing.B) {
 		})
 	}
 }
+
+func BenchmarkMapStringLiteralConst(b *testing.B) {
+	for length, builder := range constBuildersRegistry {
+		b.Run(fmt.Sprintf("%04d", length), func(b *testing.B) {
+			b.ReportAllocs()
+			for i := 0; i < b.N; i++ {
+				m = builder()
+			}
+		})
+	}
+}
